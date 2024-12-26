@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 import re
+import random
+import string
 
 # Function to evaluate the password strength
 def check_password_strength(password):
@@ -12,9 +14,9 @@ def check_password_strength(password):
     if not re.search(r'[a-z]', password):
         return "Weak: Add at least one lowercase letter!", "red"
     if not re.search(r'[0-9]', password):
-        return "Weak: Add at least one number!", "red"
+        return "Moderate: Add at least one number!", "red"
     if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
-        return "Weak: Add at least one special character!", "red"
+        return "Moderate: Add at least one special character!", "red"
     
     return "Strong: Good password!", "green"
 
@@ -32,6 +34,24 @@ def suggest_improvements(password):
     if not re.search(r'[!@#$%^&*(),.?":{}_`|<>]', password):
         improvements.append("Use special characters.")
     return improvements
+
+
+
+# Function to generate a random password
+def generate_password():
+    # Default password criteria
+    length = 12
+    characters = string.ascii_letters + string.digits + "!@#$%^&*()"
+
+    # Generate random password
+    password = ''.join(random.choice(characters) for _ in range(length))
+
+    # Display the generated password in the input field
+    entry.delete(0, tk.END)  # Clear existing text
+    entry.insert(0, password)  # Insert generated password
+    messagebox.showinfo("Generated Password", f"Generated Password:\n{password}")
+
+
 
 # Function to handle the button click event and show results
 def evaluate_password():
@@ -66,6 +86,10 @@ strength_label.pack()
 
 # Button to check the password
 tk.Button(root, text="Check", command=evaluate_password).pack()
+
+
+# Add a button for password generation in the GUI
+tk.Button(root, text="Generate Password", command=generate_password).pack()
 
 # Run the application
 root.mainloop()

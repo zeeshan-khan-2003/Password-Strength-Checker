@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        .password-container { width: 100%; max-width: 500px; margin: 0 auto; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; }
+        .result { padding: 10px; margin-top: 10px; text-align: center; }
+        .red { background-color: red; color: white; }
+        .yellow { background-color: yellow; color: black; }
+        .green { background-color: green; color: white; }
+    </style>
+</head>
+<body>
+    <div class="password-container">
+        <h2>Password Strength Checker</h2>
+        
+        <!-- Password Generation -->
+        <form action="/generate" method="POST">
+            <button type="submit">Generate Password</button>
+        </form>
+        
+        {% if generated_password %}
+        <h3>Generated Password: {{ generated_password }}</h3>
+        {% endif %}
+        
+        <!-- Password Strength Check -->
+        <form action="/check_strength" method="POST">
+            <label for="password">Enter Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Check Strength</button>
+        </form>
+        
+        {% if password_strength %}
+        <div class="result {{ color }}">
+            <h3>Password Strength: {{ password_strength }}</h3>
+            <h4>Suggestions for Improvement:</h4>
+            <ul>
+                {% for suggestion in suggestions %}
+                    <li>{{ suggestion }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
